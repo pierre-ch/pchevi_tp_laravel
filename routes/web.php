@@ -98,8 +98,18 @@ use Illuminate\Support\Facades\Route;
 // Route::get ('/login', function() { return "Authentication required !";
 // })->name('login');
 
+// Route::get('/', function () {return view('welcome');});
+// Route::get('/film/{titre}', function($titre) { return "Film titre:{$titre}";})->name('film.affiche');
+// Route::redirect('/film/{titre}', '/');
+// Route::get('/accueil', function () {return view('accueil');});
+// Route::get('/accueil', function () {return view('accueil',['user' => 'Elève BTS SIO 2 Carcouet']);});
+
+
+
 Route::get('/', function () {return view('welcome');});
-Route::get('/film/{titre}', function($titre) { return "Film titre:{$titre}";})->name('film.affiche');
-Route::redirect('/film/{titre}', '/');
-Route::get('/accueil', function () {return view('accueil');});
-Route::get('/accueil', function () {return view('accueil',['user' => 'Elève BTS SIO 2 Carcouet']);});
+Route::prefix('film')
+    ->name('film.')
+    ->group(function () {
+    Route::get('list',[\App\Http\Controllers\FilmController::class,'afficheFilms'])->name('list');
+    Route::get('list/genre/{genre}',[\App\Http\Controllers\FilmController::class,'indexGenre'])->name('listGenre');
+});
