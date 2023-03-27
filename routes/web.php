@@ -118,3 +118,11 @@ Route::prefix('film')
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/flights', function () {
+    // Only authenticated users may access this route...
+})->middleware('auth');
+
+Route::get('/settings/security', function () {
+    // Users must confirm their password before continuing...
+})->middleware(['auth', 'password.confirm']);

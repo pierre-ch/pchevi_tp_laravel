@@ -5,11 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 
 class FilmController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('auth'); // ou $this->middleware('auth')->only(['create', 'update']);
+    }
+
+    // protected function redirectTo(Request $request): string
+    // {
+    //     return route('login');
+    // }   
+
+
     public function index(Request $request)
     {
         return '<ul>
@@ -77,20 +88,29 @@ class FilmController extends Controller
 
     public function afficheFilms()
     {    //On simule l'acces au Model pour récupérer la liste des Films
-        $films = [
-            [
-                'titre' => 'Babylon', 'year' => 2023
-            ],
-            [
-                'titre' => 'Avatar 2', 'year' => 2022
-            ]
-        ];
-        //appel de la vue listFilms en lui passant la liste des films
-        return response()->view('backoffice.film.listFilms', ['films' => $films])
-        ->header('X-HEADER-ONE','Value 1')
-        ->cookie('cookie_one','value1')
-        ->header('Content-Type','text/html');
+        $user = Auth::user();
+        $id = Auth::id();
 
+        if (Auth::check()) {
+            // The user is logged in...
+            $films = [
+                [
+                    'titre' => 'Babylon', 'year' => 2023
+                ],
+                [
+                    'titre' => 'Avatar 2', 'year' => 2022
+                ]
+            ];
+            //appel de la vue listFilms en lui passant la liste des films
+            return response()->view('backoffice.film.listFilms', ['films' => $films])
+            ->header('X-HEADER-ONE','Value 1')
+            ->cookie('cookie_one','value1')
+            ->header('Content-Type','text/html');
+        }
+        else
+        {
+            echo("Non connecté");
+        }
     }
 
 }
