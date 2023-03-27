@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 
 class FilmController extends Controller
@@ -85,7 +86,7 @@ class FilmController extends Controller
             ]
         ];
         //appel de la vue listFilms en lui passant la liste des films
-        return response()->view('backoffice\film\listFilms', ['films' => $films])
+        return response()->view('backoffice.film.listFilms', ['films' => $films])
         ->header('X-HEADER-ONE','Value 1')
         ->cookie('cookie_one','value1')
         ->header('Content-Type','text/html');

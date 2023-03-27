@@ -107,9 +107,14 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {return view('welcome');});
+Route::get('/accueil', function () {return view('accueil');});
 Route::prefix('film')
     ->name('film.')
     ->group(function () {
     Route::get('list',[\App\Http\Controllers\FilmController::class,'afficheFilms'])->name('list');
     Route::get('list/genre/{genre}',[\App\Http\Controllers\FilmController::class,'indexGenre'])->name('listGenre');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
